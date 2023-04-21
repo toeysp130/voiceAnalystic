@@ -16,8 +16,9 @@ def trainGMM(wavData, frameRate, segLen, vad, numMix):
     # GMM = GaussianMixture(n_components=1,covariance_type='diag',reg_covar =1e-3).fit(mfcc)
 
     # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-3).fit(mfcc)
-    GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-4).fit(mfcc)
+    # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-4).fit(mfcc)
     # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-5).fit(mfcc)
+    GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-6).fit(mfcc)
 
     segLikes = []
     segSize = frameRate*segLen

@@ -1,4 +1,6 @@
 import soundfile as sf
+import json
+
 import os
 from django.http import HttpResponse
 from thai_sentiment import get_sentiment
@@ -16,7 +18,7 @@ from .Algolithm.chunk_extract import extract_wav_by_label
 from pydub import AudioSegment
 from .Algolithm.Speech_Reconiz.wav2vec2_fineTune import speech_text #Backend/core/API/Algolithm/Speech_Reconiz
 from .Algolithm.rex import search_pattern
-
+from .Algolithm.speech_to_text import speech_to_thai
 
 # from playsound import playsound
 from .Algolithm.VoiceActivityDetection import VoiceActivityDetection   #Backend/core/API/Algolithm/VoiceActivityDetection.py
@@ -37,10 +39,10 @@ class File(models.Model):
     def save(self,*args,**kwargs):
         try :
             segLen,frameRate,numMix,sr = 1,50,64,16000
-            path = "/Users/watcharak/BAY/voiceAnalystic/Backend/core/static/"
+            # path = "/Users/watcharak/BAY/voiceAnalystic/Backend/core/static/"
             # print(self.file.path)
-            path_complete = path+self.file.name
-            print(path_complete)
+            # path_complete = self.path+self.file.name
+            # print(path_complete)
             wavData,_ = librosa.load(self.file) 
             print("enter function")
             vad = VoiceActivityDetection(wavData,frameRate)
@@ -57,13 +59,14 @@ class File(models.Model):
             
             pass1hyp = -1*np.ones(len(vad))
             pass1hyp[vad] = frameClust
-            spkdf=speakerdiarisationdf(pass1hyp, frameRate, path_complete)
+            spkdf=speakerdiarisationdf(pass1hyp, frameRate, self.file.name)
             spkdf["TimeSeconds"]=spkdf.EndTime-spkdf.StartTime
 
-            # print(extract_wav_by_label(self.file,path))
-            chunk_path = os.path.join(path,f"{self.file.name}_chunk")
-            os.mkdir(chunk_path)
-            os.chdir(chunk_path)
+            # # print(extract_wav_by_label(self.file,path))
+            # # chunk_path = self.path.join(path,f"{self.file.name}_chunk")
+            # os.mkdir(f"{self.file.name}_chunk")
+            # os.chdir(f"{self.file.name}_chunk")
+
             Transcription = []
             Senti_ment = []
             Regular = []
@@ -75,8 +78,9 @@ class File(models.Model):
                 speaker_segment = AudioSegment.from_wav(self.file)[start_time:end_time]
                 speaker_segment.export(f'chunk_{i}.wav', format='wav')
                 Transcription.append(speech_text(f'chunk_{i}.wav',i))
-                Senti_ment.append(get_sentiment(Transcription[i]))
-                Regular.append(search_pattern(Transcription[i]))
+                # Transcription.append(speech_to_thai(f'chunk_{i}.wav'))
+                Senti_ment.append(json.dumps(get_sentiment(Transcription[i])[1]))
+                Regular.append(json.dumps(search_pattern(Transcription[i])))
             spkdf["Transcription"] = Transcription
             spkdf["Sentiment"] = Senti_ment
             spkdf["RegularExpression"] = Regular
@@ -87,7 +91,7 @@ class File(models.Model):
 
             print("successfuly process")
 
-            print(spkdf.to_dict('records'))
+            print(spkdf.to_json(orient = 'records'))
 
             # # sent to mongo db
             # client =  MongoClient('mongodb+srv://watcharak:toey2543@cluster.9w68pty.mongodb.net/?retryWrites=true&w=majority')
@@ -98,7 +102,8 @@ class File(models.Model):
             # # Insert collection
             # # collection.insert_many(data_dict)
             # collection.insert_one({'data': data_dict})
-            self.res = spkdf.to_dict('records')
+            self.res = spkdf.to_json(orient = 'records')
+           
 
 
 

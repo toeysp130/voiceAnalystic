@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 
 # Model
-#/voiceAnalystic/Backend/core/API/Algolithm/Speech_Reconiz/pytorch_model.bin
 /Backend/core/API/Algolithm/Speech_Reconiz/pytorch_model.bin
 
 

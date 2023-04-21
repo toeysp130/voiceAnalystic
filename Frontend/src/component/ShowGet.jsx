@@ -9,7 +9,7 @@ const ShowGet = () => {
     setIsLoading(true);
 
     const fetchData = async() => {
-        const result = await getResult(366);
+        const result = await getResult(Object.id);
         console.log(result)
         setResult(result);
         setIsLoading(false);

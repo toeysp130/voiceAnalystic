@@ -15,7 +15,7 @@ function App() {
             <Upload/>
           </div>
           
-          <div className="col-6 mt-4">{/* <ShowGet /> */}</div>
+          {/* <div className="col-6 mt-4"><ShowGet /></div> */}
         </div>
 
         {/* <header className="App-header">

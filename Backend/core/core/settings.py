@@ -29,14 +29,15 @@ SECURE_SSL_REDIRECT = False
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",    
-    "http://127.0.0.1:3000",
-    "http://192.168.1.11:3000",
-    "http://192.168.1.11:8000",
-]
+CORS_ALLOW_HEADERS = ['*']
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8000",
+#     "http://localhost:3000",
+#     "http://127.0.0.1:8000",    
+#     "http://127.0.0.1:3000",
+#     "http://192.168.1.11:3000",
+#     "http://192.168.1.11:8000",
+# ]
 
 # Application definition
 

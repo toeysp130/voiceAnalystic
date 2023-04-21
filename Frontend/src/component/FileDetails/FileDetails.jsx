@@ -13,15 +13,20 @@ import ShowGet from "../ShowGet";
 const FileDetails = ({ inputRef }) => {
 
   const [show, setShow] = useState(false);
+  const [idx, set_Idx] = useState(-1);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (idx) => {
+    setShow(true) 
+    set_Idx(idx)
+  } 
 
-  const { setIsUpload , selectedFile } = useAppContext()
+  const { setIsUpload , selectedFile , setDataFromML } = useAppContext()
 
   const onFileUpload = async (event) => {
     event.preventDefault();
     const result = await postFile(selectedFile)
+    setDataFromML(result.map(data => ({...data.data , res: JSON.parse(data.data.res)})))
     const isSuccess = result.every(data => data.status === 201);
     
     const successSwalOptions = {
@@ -36,7 +41,7 @@ const FileDetails = ({ inputRef }) => {
       title:'Something wen\'t wrong , Please try again later'
     }
  
-    // ShowGet(result);
+    // ShowGet(result.data.id);
     inputRef.current.value = "";
 
     Swal.fire(isSuccess ? successSwalOptions : errorSwalOptions)
@@ -59,11 +64,15 @@ const FileDetails = ({ inputRef }) => {
             </tr>
           </thead>
           <tbody>
-            {selectedFile.length > 0 && 
-              selectedFile.map((file, index) => (
-                <TableUpload file={file} index={index} key={index} handleShow={handleShow}/>
+            {
+              selectedFile.length > 0 && 
+                selectedFile.map((file, index) => (
+                  <TableUpload file={file} index={index} key={index} handleShow={handleShow}/>
                 )
               )
+
+
+              
             }
             <tr>
               <td align="right" colSpan={6}>
@@ -80,7 +89,7 @@ const FileDetails = ({ inputRef }) => {
 
         {/* <MulTimedia url={selectedFile}/> */}
       </div>
-      <PopOver isShow={show} hide={handleClose} />
+      <PopOver isShow={show} hide={handleClose} idx={idx} />
       {/* <Analyis_detail /> */}
     </div>
   );
