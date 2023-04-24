@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Table from 'react-bootstrap/Table';
+
 import Dchart from './Dchart';
 import Container from 'react-bootstrap/Container'
 import ShowGet from './ShowGet';
@@ -63,70 +65,81 @@ const PopOver = ({isShow , hide, idx}) => {
                     <Dchart sentiment={dataChart} />
                   </Row>
                   <Row>
-                    <table>
+                    <Table striped="columns">
                       <thead>
-                        <td> </td>
+                        <tr>
+                          <th> Match Intent</th>
+                          <th></th>
+                        </tr>
                       </thead>
-                      {
-                        data_ML !== null &&
-                        data_ML.res.map((item, index) => {
-                          
-                          let regular = JSON.parse(item.RegularExpression)
-                          
-                          if (regular.length !== 0) {
-                            return (
-                              <tr key={index}>
-                                <td>
-                                  { regular[1] }
-                                </td>
-                              </tr>
-                            )
-                          }
-                        })
-                      }
-                    </table>
+                      <tbody>
+                        {
+                          data_ML !== null &&
+                          data_ML.res.map((item, index) => {
+                            
+                            let regular = JSON.parse(item.RegularExpression)
+                            
+                            if (regular.length !== 0) {
+                              return (
+                                <tr key={index}>
+                                  <td>
+                                    { regular[0] }
+                                  </td>
+                                  <td>
+                                    { regular[1] }
+                                  </td>
+                                </tr>
+                              )
+                            }
+                          })
+                        }
+                      </tbody>
+                    </Table>
                   </Row>
                 </Col>
                 <Col lg={8}>
-                  <table>
+                  <Table striped="columns">
                     <thead>
-                      <td>SpeakerLabel</td>
-                      <td>StartTime</td>
-                      <td>EndTime</td>
+                      <tr>
+                        <th>SpeakerLabel</th>
+                        <th>StartTime</th>
+                        <th>EndTime</th>
+                        <th>TimeSeconds</th>
+                        <th>Transcription</th>
 
-                      <td>TimeSeconds</td>
-                      <td>Transcription</td>
-
-                      
+                      </tr>
 
                       
                     </thead>
-                    {
-                      data_ML !== null &&
-                      data_ML.res.map((item, index) => {
-                        console.log(item)
-                        return (
-                            <tr key={index}>
-                              <td>
-                                { item.SpeakerLabel }
-                              </td>
-                              <td>
-                                { item.StartTime }
-                              </td>
-                              <td>
-                                { item.EndTime }
-                              </td>
-                              <td>
-                                { item.TimeSeconds }
-                              </td>
-                              <td>
-                                { item.Transcription }
-                              </td>
-                            </tr>
-                        )
-                      })
-                    }
-                  </table>
+                    <tbody>
+                      {
+                        data_ML !== null &&
+                        data_ML.res.map((item, index) => {
+                          console.log(item)
+                          return (
+                              <tr key={index}>
+                                <td>
+                                  { item.SpeakerLabel }
+                                </td>
+                                <td>
+                                  { item.StartTime }
+                                </td>
+                                <td>
+                                  { item.EndTime }
+                                </td>
+                                <td>
+                                  { item.TimeSeconds }
+                                </td>
+                                <td>
+                                  { item.Transcription }
+                                </td>
+                              </tr>
+                          )
+                        })
+                      }
+                    </tbody>
+
+                  </Table>
                 </Col>
               </Row>
               {/* <ShowGet {}/> */}

@@ -29,6 +29,14 @@ function getData(sentiment) {
         borderWidth: 1,
       },
     ],
+    options: {
+      plugins: {
+          title: {
+              display: true,
+              text: 'Custom Chart Title'
+          }
+      }
+  }
   }
 
 }

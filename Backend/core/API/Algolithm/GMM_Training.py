@@ -14,12 +14,13 @@ def trainGMM(wavData, frameRate, segLen, vad, numMix):
     mfcc = mfcc[vad,:];
     print("Training GMM..")
     # GMM = GaussianMixture(n_components=1,covariance_type='diag',reg_covar =1e-3).fit(mfcc)
-
+    # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-2).fit(mfcc)
     # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-3).fit(mfcc)
-    # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-4).fit(mfcc)
+    GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-4).fit(mfcc)
     # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-5).fit(mfcc)
-    GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-6).fit(mfcc)
-
+    # GMM = GaussianMixture(n_components=numMix,covariance_type='diag',reg_covar =1e-6).fit(mfcc)
+    # GMM = GaussianMixture(n_components=numMix,covariance_type='full',reg_covar =1e-7).fit(mfcc)
+    print(GMM)
     segLikes = []
     segSize = frameRate*segLen
     for segI in range(int(np.ceil(float(mfcc.shape[0])/(frameRate*segLen)))):
