@@ -64,12 +64,13 @@ const PopOver = ({isShow , hide, idx}) => {
                   <Row>
                     <Dchart sentiment={dataChart} />
                   </Row>
+                  <Row><br></br></Row>
                   <Row>
                     <Table striped="columns">
                       <thead>
                         <tr>
                           <th> Match Intent</th>
-                          <th></th>
+                          <th>Value</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -98,7 +99,7 @@ const PopOver = ({isShow , hide, idx}) => {
                   </Row>
                 </Col>
                 <Col lg={8}>
-                  <Table striped="columns">
+                  <Table striped bordered>
                     <thead>
                       <tr>
                         <th>SpeakerLabel</th>
@@ -148,7 +149,7 @@ const PopOver = ({isShow , hide, idx}) => {
             </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={hide}>
+          <Button variant="danger" onClick={hide}>
             Close
           </Button>
         </Modal.Footer>

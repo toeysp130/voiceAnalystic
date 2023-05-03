@@ -4,7 +4,7 @@ from .component import n_components
 
 def featureFN(wavData,sr,frameRate,vad):
     print("Run featureFN.py")
-    mfcc = librosa.feature.mfcc(wavData, sr, n_mfcc=20,hop_length=int(16000/frameRate)).T
+    mfcc = librosa.feature.mfcc(wavData, sr, n_mfcc=20,hop_length=int(sr/frameRate)).T
     vad = np.reshape(vad,(len(vad),))
     print(mfcc)
     print("")

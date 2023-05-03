@@ -16,7 +16,7 @@ from sklearn.preprocessing import StandardScaler, normalize
 from .Algolithm.component import n_components
 from .Algolithm.chunk_extract import extract_wav_by_label
 from pydub import AudioSegment
-from .Algolithm.Speech_Reconiz.wav2vec2_fineTune import speech_text #Backend/core/API/Algolithm/Speech_Reconiz
+# from .Algolithm.Speech_Reconiz.wav2vec2_fineTune import speech_text #Backend/core/API/Algolithm/Speech_Reconiz
 from .Algolithm.rex import search_pattern
 from .Algolithm.speech_to_text import speech_to_thai
 
@@ -77,8 +77,7 @@ class File(models.Model):
                 end_time = row.EndTime * 1000
                 speaker_segment = AudioSegment.from_wav(self.file)[start_time:end_time]
                 speaker_segment.export(f'chunk_{i}.wav', format='wav')
-                Transcription.append(speech_text(f'chunk_{i}.wav',i))
-                # Transcription.append(speech_to_thai(f'chunk_{i}.wav'))
+                Transcription.append(speech_to_thai(f'chunk_{i}.wav'))
                 Senti_ment.append(json.dumps(get_sentiment(Transcription[i])[1]))
                 Regular.append(json.dumps(search_pattern(Transcription[i])))
             spkdf["Transcription"] = Transcription

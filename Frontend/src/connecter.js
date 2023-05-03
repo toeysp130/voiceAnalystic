@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.1.11:8000/api/File/";
+const API_URL = "http://localhost:8000/api/File/";
 const getResult = async () => {
   try {
   // let id = 364

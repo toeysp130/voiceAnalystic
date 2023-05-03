@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
-from .Speech_Reconiz.wav2vec2_fineTune import speech_text
+# from .Speech_Reconiz.wav2vec2_fineTune import speech_text
 import os
 import numpy as np
 
@@ -20,6 +20,6 @@ def extract_wav_by_label(wavFile,path):
       out_file = "chunk{0}.wav".format(i)
       print("exporting", out_file)
       chunk.export(out_file, format="wav")
-      speech_text(out_file,i)
+      # speech_text(out_file,i)
    return "sucess of chunk"
 
